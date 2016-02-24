@@ -1,0 +1,13 @@
+label,group,type,tab,is_chart,is_table,chart,drilldown,dim,filter
+excel_result_1,Drilldown Result,excel,0,0,0,excel,0,"sales1_id,chan3_id,chan2_id,chan1_id,dma1_id",NULL
+excel_result_2,By Market,excel,0,0,0,excel,0,dma1_id,NULL
+excel_result_3,By Tactic,excel,0,0,0,excel,0,"chan3_id,chan2_id,chan1_id",NULL
+dmachart_1,Market,dma,2,1,0,bar,1,dma1_id,NULL
+dmatable_1,Market,dma,2,0,1,table,1,dma1_id,NULL
+overall,overall,overall,0,0,0,overall,0,all_id,NULL
+tacticchart_1,Tactic,chan,1,1,0,bar,1,"chan3_id,chan2_id,chan1_id,dma1_id",dma
+tacticchart_2,Tactic,chan,1,1,0,bar,1,"chan3_id,chan2_id,dma1_id",dma
+tacticchart_3,Tactic,chan,1,1,0,bar,1,"chan3_id,dma1_id",dma
+tactictable_1,Tactic,chan,1,0,1,table,1,"chan3_id,chan2_id,chan1_id",NULL
+tactictable_2,Tactic,chan,1,0,1,table,1,"chan3_id,chan2_id",NULL
+tactictable_3,Tactic,chan,1,0,1,table,1,chan3_id,NULL
