@@ -4,7 +4,7 @@ client_name,Kohls Ninah
 r_path,/home/rstudio/nviz/kohls/
 general_message,
 calendar,1
-pace,200
+pace,1000
 goal_check,1
 bdgt_dim,"chan2_id,chan3_id,chan1_id,dma1_id,week_id"
 event_dim,"chan2_id,chan3_id,chan1_id,dma1_id,sales1_id"
