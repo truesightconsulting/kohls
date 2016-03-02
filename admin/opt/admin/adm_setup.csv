@@ -3,7 +3,7 @@ update,y
 client_name,Kohls Ninah
 r_path,/home/rstudio/nviz/kohls/
 general_message,
-calendar,1
+calendar,2
 pace,1000
 goal_check,1
 bdgt_dim,"chan2_id,chan3_id,chan1_id,dma1_id,week_id"
