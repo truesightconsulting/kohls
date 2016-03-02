@@ -10,6 +10,17 @@ curve=merge(curve,ex.clv[,c("sales1_id","clv","approval"),with=F],by=c("sales1_i
 # # tweak a based on approval
 # curve$a=curve$a*curve$approval
 
+# tweak curve based on time window
+start.optm=as.Date(ex.setup$date_start)
+end.optm=as.Date(ex.setup$date_end)
+date.temp=optm.date(ex.setup$date_start,ex.setup$date_end)
+range.wk.optm=date.temp$range.wk
+out.wk.optm=date.temp$out.wk
+n=length(out.wk.optm)
+curve$beta=n*curve$beta
+curve$wks=n*curve$wks
+ex.setup$input_increment=n*ex.setup$input_increment
+
 # set a based on clv value
 # curve$a.decomp=curve$a
 # if(ex.setup$optimization_target==2){
