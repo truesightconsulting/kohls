@@ -11,5 +11,5 @@ tacticchart_3,Tactic,chan,1,1,0,bar,1,chan3_id,NULL
 tactictable_1,Tactic,chan,1,0,1,table,1,"chan3_id,chan2_id,chan1_id,dma1_id",dma
 tactictable_2,Tactic,chan,1,0,1,table,1,"chan3_id,chan2_id,dma1_id",dma
 tactictable_3,Tactic,chan,1,0,1,table,1,"chan3_id,dma1_id",dma
-saleschart_1,Customer Segment,dma,3,1,0,bar,1,sales1_id,NULL
-salestable_1,Customer Segment,dma,3,0,1,table,1,"sales1_id,dma1_id",dma
+saleschart_1,Customer Segment,sales,3,1,0,bar,1,sales1_id,NULL
+salestable_1,Customer Segment,sales,3,0,1,table,1,"sales1_id,dma1_id",dma
