@@ -29,6 +29,8 @@ ex.setup$input_increment=n*ex.setup$input_increment
 curve$beta.decomp=curve$beta
 if(ex.setup$optimization_target==2){
   curve=curve[,beta:=beta*clv]
+}else if (ex.setup$optimization_target==3){
+  curve=curve[,beta:=beta/factor_1]
 }
 
 
