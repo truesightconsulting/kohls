@@ -140,7 +140,7 @@ if (check.error==0){
       temp[is.na(temp)]=0
       temp.dim=names(temp)[grep("_name",names(temp))]
       temp[,c("spend","decomp","value","support","factor_1")]=
-        round(temp[,c("spend","decomp","value","support","facotr_1"),with=F],digits = 0)
+        round(temp[,c("spend","decomp","value","support","factor_1"),with=F],digits = 0)
       temp[,c("eff1","eff2")]=
         round(temp[,c("eff1","eff2"),with=F],digits = 1)
       temp=data.table(temp[,temp.dim,with=F],temp[,!temp.dim,with=F]
