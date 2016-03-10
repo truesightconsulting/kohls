@@ -56,7 +56,7 @@ if (check.error==0){
       summary.sp1=summary.sp[,list(spend=sum(sp_current),spend_start=sum(sp_min),
                                    support=sum(support),support_start=sum(support_start)),by=c(bdgt_dim[bdgt_dim %in% dim])]
       summary.npv=curve[,list(decomp=sum(value_decomp),value=sum(value_npv),factor_1=sum(value_factor_1),
-                              decomp_start=sum(value_decomp_start),value_start=sum(value_npv_start),factor_1_start=sum(value_factor_1-start)),by=c(dim1)]
+                              decomp_start=sum(value_decomp_start),value_start=sum(value_npv_start),factor_1_start=sum(value_factor_1_start)),by=c(dim1)]
       if(sum(bdgt_dim %in% dim)==0){
         summary[[i]]=data.table(summary.npv,summary.sp1)
       }else{
@@ -82,7 +82,7 @@ if (check.error==0){
         summary.sp1=summary.sp[,list(spend=sum(sp_current),spend_start=sum(sp_min),
                                      support=sum(support),support_start=sum(support_start)),by=c(bdgt_dim[bdgt_dim %in% dim])]
         summary.npv=curve[,list(decomp=sum(value_decomp),value=sum(value_npv),factor_1=sum(value_factor_1),
-                                decomp_start=sum(value_decomp_start),value_start=sum(value_npv_start),factor_1_start=sum(value_factor_1-start)),by=c(dim1)]
+                                decomp_start=sum(value_decomp_start),value_start=sum(value_npv_start),factor_1_start=sum(value_factor_1_start)),by=c(dim1)]
         if(sum(bdgt_dim %in% dim)==0){
           temp=data.table(summary.npv,summary.sp1)
         }else{
@@ -118,7 +118,7 @@ if (check.error==0){
       temp[is.na(temp)]=0
       temp.dim=names(temp)[grep("_name",names(temp))]
       temp[,c("spend","decomp","value","factor_1","spend_start","decomp_start","value_start","factor_1_start","support","support_start")]=
-        round(temp[,c("spend","decomp","value","spend_start","decomp_start","value_start","support","support_start"),with=F],digits = 0)
+        round(temp[,c("spend","decomp","value","factor_1","spend_start","decomp_start","value_start","factor_1_start","support","support_start"),with=F],digits = 0)
       temp[,c("eff1","eff1_start","eff2","eff2_start")]=
         round(temp[,c("eff1","eff1_start","eff2","eff2_start"),with=F],digits = 1)
       if (dim[1]=="all_id") {
