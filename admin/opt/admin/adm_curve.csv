@@ -1,4 +1,4 @@
-dma1_name,sales1_name,chan3_name,chan2_name,chan1_name,all_name,max,cpp,hl,hrf,wks,beta,curvegroup_name,factor_1
+dma1_name,sales1_name,chan1_name,chan2_name,chan3_name,all_name,max,cpp,hl,hrf,wks,beta,curvegroup_name,factor_1
 TRI-STATE-NY/NJ/CT,New Loyal KC,Network TV,Network TV,Network TV,overall,21420388.44,0.027037825,5,0.75,1,2671.934764,weekly,201.8593061
 TRI-STATE-NY/NJ/CT,New Loyal NKC,Network TV,Network TV,Network TV,overall,21420388.44,0.027037825,5,0.15,1,5502.92419,weekly,134.1995803
 TRI-STATE-NY/NJ/CT,New Non-Loyal KC,Network TV,Network TV,Network TV,overall,21420388.44,0.027037825,5,0.15,1,39528.62674,weekly,194.2153829
