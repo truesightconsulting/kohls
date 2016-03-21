@@ -11,3 +11,4 @@ event_dim,"chan2_id,chan3_id,chan1_id,dma1_id,sales1_id"
 dim_chan,"chan3_id,chan2_id,chan1_id"
 dim_dma,dma1_id
 dim_sales,sales1_id
+dim_salchan,salchan1_id

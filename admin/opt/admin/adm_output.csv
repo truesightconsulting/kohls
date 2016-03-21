@@ -1,5 +1,5 @@
 label,group,type,tab,is_chart,is_table,chart,drilldown,dim,filter
-excel_result_1,Drilldown Result,excel,0,0,0,excel,0,"sales1_id,chan1_id,chan2_id,chan3_id,dma1_id",NULL
+excel_result_1,Drilldown Result,excel,0,0,0,excel,0,"salchan1_id,sales1_id,chan1_id,chan2_id,chan3_id,dma1_id",NULL
 excel_result_2,By Market,excel,0,0,0,excel,0,dma1_id,NULL
 excel_result_3,By Tactic,excel,0,0,0,excel,0,"chan1_id,chan2_id,chan3_id",NULL
 dmachart_1,Market,dma,2,1,0,bar,1,dma1_id,NULL
@@ -13,3 +13,5 @@ tactictable_2,Tactic,chan,1,0,1,table,1,"chan1_id,chan2_id,dma1_id",dma
 tactictable_1,Tactic,chan,1,0,1,table,1,"chan1_id,dma1_id",dma
 saleschart_1,Customer Segment,sales,3,1,0,bar,1,sales1_id,NULL
 salestable_1,Customer Segment,sales,3,0,1,table,1,"sales1_id,dma1_id",dma
+histable_1,Hispanic/GM,salchan,4,0,1,table,1,salchan1_id,NULL
+hischart_1,Hispanic/GM,salchan,4,1,0,bar,1,salchan1_id,NULL

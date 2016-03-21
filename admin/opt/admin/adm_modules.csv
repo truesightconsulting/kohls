@@ -7,7 +7,7 @@ Time Window,opt_input_date_range,1
 Tactic,opt_input_dim_chan,1
 Markets,opt_input_dim_dma,1
 Customer Segment,opt_input_dim_sales,1
-Sales Channel,opt_input_dim_salchan,0
+Segment (Hispanic/GM),opt_input_dim_salchan,1
 Event Setup,opt_input_event,1
 Optimization Metric,opt_input_optimization_target,1
 Optimization Type,opt_input_optimization_type,1
