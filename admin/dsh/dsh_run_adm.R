@@ -1,15 +1,21 @@
 library(data.table);library(bit64);library(plyr)
 suppressMessages(suppressWarnings(library(RMySQL)))
 
+
+# folder where you put your 7za and pscp
 path_system="C:\\Users\\yuemeng1\\"
+# folder where you put your key for AWS RDS
 path_key="C:\\Users\\yuemeng1\\Desktop\\Github\\ninah.ppk"
-path_client="C:\\Users\\yuemeng1\\Desktop\\code\\dashboard\\Kohls\\" #ensure no \\ at the end of the path
+# folder where you put all input files for the client
+path_client="C:\\Users\\yuemeng1\\Desktop\\code\\dashboard\\Kohls_1\\" #ensure there is \\ at the end of the path
+# folder where you put the main code
+path_R="C:\\Users\\yuemeng1\\Desktop\\code\\dashboard\\R"
 
 #is.staging=T  True is to staging DB and F is to production DB
 #update=T if you want to delete all the info from this client, or it is a new client, put it as T
 
 setwd(path_client)
-final=fread("dsh_input_modelinput_data.csv")
+final=fread("dsh_modelinput_data.csv")
 datelkup=fread("dsh_input_lookup_date.csv")
 varlkup=fread("dsh_input_lookup_var.csv",na.strings="")
 dmalkup=fread("dsh_input_lookup_dma.csv")
@@ -45,13 +51,11 @@ if (is.staging){
 
 conn <- dbConnect(MySQL(),user=username, password=password,dbname=db.name, host=db.server)
 
-
-path_code=paste(path_client,"R",sep="")
 #########################
 #Transform and uploading#
 #########################
 
-setwd(path_code)
+setwd(path_R)
 source("adm_transform.R",local=F)
 source("adm_update.R",local=F)
 run=adm_update()
