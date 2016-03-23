@@ -26,8 +26,8 @@ if (check.error==0){
     curve$support_start=curve$sp_min/curve$cps
   }
   curve$support=curve$sp_current/curve$cps
-  curve$value_npv_next=curve$clv*calc_decomp(curve$sp_current+sp_inc)
-  curve$sp_inc=sp_inc
+  curve$value_npv_next=curve$clv*calc_decomp(curve$sp_current+ex.setup$input_increment)
+  curve$sp_inc=ex.setup$input_increment
   
   # summarize result
   print("Note: Summarizing output.")
