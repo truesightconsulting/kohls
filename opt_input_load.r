@@ -6,6 +6,7 @@ if (db.usage){
   ex.media=data.table(dbGetQuery(conn,paste("select * from opt_userinput_dim_chan where opt_id=",opt_id,sep="")))
   ex.sales=data.table(dbGetQuery(conn,paste("select * from opt_userinput_dim_sales where opt_id=",opt_id,sep="")))
   ex.dma=data.table(dbGetQuery(conn,paste("select * from opt_userinput_dim_dma where opt_id=",opt_id,sep="")))
+  ex.salchan=data.table(dbGetQuery(conn,paste("select * from opt_userinput_dim_salchan where opt_id=",opt_id,sep="")))
   ex.cps=data.table(dbGetQuery(conn,paste("select * from opt_userinput_cps where opt_id=",opt_id,sep="")))
   ex.cstr.input=data.table(dbGetQuery(conn,paste("select * from opt_userinput_cstr where opt_id=",opt_id,sep="")))
   ex.multigoal=data.table(dbGetQuery(conn,paste("select * from opt_userinput_multigoal where opt_id=",opt_id,sep="")))

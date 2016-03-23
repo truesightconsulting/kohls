@@ -10,6 +10,8 @@ curve=merge(curve,ex.sales[,c("sales1_id","flag_sales"),with=F],
             by=c("sales1_id"))
 curve=merge(curve,ex.dma[,c("dma1_id","flag_dma"),with=F],
             by=c("dma1_id"))
+curve=merge(curve,ex.salchan[,c("salchan1_id","flag_salchan"),with=F],
+            by=c("salchan1_id"))
 curve=merge(curve,ex.curvegroup[,c("curvegroup_id","flag_curvegroup"),with=F],
             by=c("curvegroup_id"))
 
