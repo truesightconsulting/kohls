@@ -132,7 +132,7 @@ if (check.error==0){
       }
       temp=temp[order(-spend)]
       setnames(temp,c("factor_1","factor_1_start","spend","spend_start","support","support_start","decomp","decomp_start","value","value_start","eff1","eff1_start","eff2","eff2_start","value_next","sp_inc"),
-               c("Transactions","Planned Transactions","Spend","Planned Spend","Impressions","Planned Impressions","Revenue","Planned Revenue","Profit","Planned Profit","CPA","Planned CPA","ROI","Planned ROI","value_next","sp_inc"))
+               c("Transactions","Planned Transactions","Spend","Planned Spend","Impressions","Planned Impressions","Revenue","Planned Revenue","Profit","Planned Profit","CPA","Planned CPA","ROI","Planned ROI","Next Profit","Inc Spend"))
       temp=temp[,!c("CPA","Planned CPA"),with=F]
     }else{
       temp=temp[,!c("decomp_start","value_start","spend_start","support_start","factor_1_start"),with=F]
@@ -149,20 +149,21 @@ if (check.error==0){
                       [,c("spend","support","decomp","value","factor_1","eff1","eff2","value_next","sp_inc"),with=F])
       temp=temp[order(-spend)]
       setnames(temp,c("factor_1","spend","support","decomp","value","eff1","eff2","value_next","sp_inc"),
-               c("Transactions","Spend","Impressions","Revenue","Profit","CPA","ROI","value_next","sp_inc"))
+               c("Transactions","Spend","Impressions","Revenue","Profit","CPA","ROI","Next Profit","Inc Spend"))
       temp=temp[,!c("CPA"),with=F]
     }
     # delete dimension columns for overall output table
     if (dim[1]=="all_id"){
-      temp=temp[,!c("all_name","value_next","sp_inc"),with=F]
+      temp=temp[,!c("all_name","Next Profit","Inc Spend"),with=F]
     }else if (ex.output$type[i]=="excel"){
       dim.id=data.table(dbGetQuery(conn,paste("select * from opt_modules_dim a inner join opt_label_modules_dim b on a.opt_label_modules_dim_id =b.id where client_id=",client_id,sep="")))
       dim.id$dim=paste(dim.id$dim,"_name",sep="")
       index=grepl("_name",names(temp))
       dim.name=merge(data.table(dim=names(temp)[index]),dim.id[,c("dim","label"),with=F],by="dim",all.x=T)
       setnames(temp,dim.name$dim,dim.name$label)
+      temp$MROI=temp[["Next Profit"]]/temp[["Inc Spend"]]
     }else{
-      temp=temp[,!c("value_next","sp_inc"),with=F]
+      temp=temp[,!c("Next Profit","Inc Spend"),with=F]
     }
     summary_output[[i]]=temp
     names(summary_output)[i]=ex.output$label[i]
