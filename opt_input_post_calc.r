@@ -161,7 +161,7 @@ if (check.error==0){
       index=grepl("_name",names(temp))
       dim.name=merge(data.table(dim=names(temp)[index]),dim.id[,c("dim","label"),with=F],by="dim",all.x=T)
       setnames(temp,dim.name$dim,dim.name$label)
-      temp$MROI=temp[["Next Profit"]]/temp[["Inc Spend"]]
+      temp$MROI=(temp[["Next Profit"]]-temp[["Profit"]])/temp[["Inc Spend"]]
     }else{
       temp=temp[,!c("Next Profit","Inc Spend"),with=F]
     }
