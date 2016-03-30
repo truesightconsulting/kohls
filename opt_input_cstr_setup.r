@@ -23,8 +23,8 @@ ex.media$flag_chan[index]=1
 ex.media$flag_chan[!index]=0
 
 index1=ex.dma$dma1_id %in% as.numeric(strsplit(temp[["dma1_id"]],",")[[1]]) 
-#index2=ex.dma$dma2_id %in% as.numeric(strsplit(temp[["dma2_id"]],",")[[1]]) 
-index=index1
+index2=ex.dma$dma2_id %in% as.numeric(strsplit(temp[["dma2_id"]],",")[[1]]) 
+index=index1&index2
 ex.dma$flag_dma[index]=1
 ex.dma$flag_dma[!index]=0
 ####################################################################################

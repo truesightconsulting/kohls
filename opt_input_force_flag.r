@@ -9,7 +9,7 @@ if (ex.setup$optimization_type %in% c(3,4)){
     unique(paste(ex.plan.input$chan1_id,ex.plan.input$chan2_id,ex.plan.input$chan3_id,sep="+")) 
   ex.media$flag_chan[index]=1
   ex.media$flag_chan[!index]=0
-  index=paste(ex.dma$dma1_id,sep="+") %in% unique(paste(ex.plan.input$dma1_id,sep="+")) 
+  index=paste(ex.dma$dma1_id,ex.dma$dma2_id,sep="+") %in% unique(paste(ex.plan.input$dma1_id,ex.plan.input$dma2_id,sep="+")) 
   ex.dma$flag_dma[index]=1
   ex.dma$flag_dma[!index]=0
 }else if (ex.setup$optimization_type==10){

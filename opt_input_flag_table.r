@@ -8,8 +8,8 @@ curve=merge(curve,ex.media[,c("chan3_id","chan2_id","chan1_id","flag_chan"),with
             by=c("chan3_id","chan2_id","chan1_id"))
 curve=merge(curve,ex.sales[,c("sales1_id","flag_sales"),with=F],
             by=c("sales1_id"))
-curve=merge(curve,ex.dma[,c("dma1_id","flag_dma"),with=F],
-            by=c("dma1_id"))
+curve=merge(curve,ex.dma[,c("dma1_id","dma2_id","flag_dma"),with=F],
+            by=c("dma1_id","dma2_id"))
 curve=merge(curve,ex.salchan[,c("salchan1_id","flag_salchan"),with=F],
             by=c("salchan1_id"))
 curve=merge(curve,ex.curvegroup[,c("curvegroup_id","flag_curvegroup"),with=F],
@@ -27,8 +27,8 @@ curve=curve[flag==4,]
 
 ex.cstr.hidden=merge(ex.cstr.hidden,ex.media[,c("chan3_id","chan2_id","chan1_id","flag_chan"),with=F],
                      by=c("chan3_id","chan2_id","chan1_id"))
-ex.cstr.hidden=merge(ex.cstr.hidden,ex.dma[,c("dma1_id","flag_dma"),with=F],
-                     by=c("dma1_id"))
+ex.cstr.hidden=merge(ex.cstr.hidden,ex.dma[,c("dma1_id","dma2_id","flag_dma"),with=F],
+                     by=c("dma1_id","dma2_id"))
 
 
 # flag=ex.cstr$flag_chan+ex.cstr$flag_dma
