@@ -6,9 +6,9 @@ general_message,
 calendar,2
 pace,500
 goal_check,1
-bdgt_dim,"chan2_id,chan3_id,chan1_id,dma1_id,week_id"
-event_dim,"chan2_id,chan3_id,chan1_id,dma1_id,sales1_id"
+bdgt_dim,"chan2_id,chan3_id,chan1_id,dma1_id,dma2_id"
+event_dim,"chan2_id,chan3_id,chan1_id,dma1_id,dma2_id,sales1_id"
 dim_chan,"chan3_id,chan2_id,chan1_id"
-dim_dma,dma1_id
+dim_dma,"dma1_id,dma2_id"
 dim_sales,sales1_id
 dim_salchan,salchan1_id

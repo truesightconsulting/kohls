@@ -3,6 +3,7 @@ overall,all_id,0,0,0
 Tactic,chan1_id,1,1,0
 Sub Tactic 1,chan2_id,1,1,0
 Sub Tactic 2,chan3_id,1,1,0
-Market,dma1_id,1,1,0
+Tier,dma1_id,1,1,0
+Market,dma2_id,1,1,0
 Sales Segment,sales1_id,0,1,1
 Segment (Hispanic/GM),salchan1_id,0,1,0
