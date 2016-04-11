@@ -65,6 +65,7 @@ source("adm_update.R",local=F)
 run=adm_update()
 source("adm_export.R",local=F)
 
+dbDisconnect(conn)
 
 
 
