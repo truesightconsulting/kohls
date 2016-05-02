@@ -1,7 +1,7 @@
 library(data.table);library(bit64);library(plyr)
 suppressMessages(suppressWarnings(library(RMySQL)))
 
-is.staging=T      #True is to staging DB and F is to production DB
+is.staging=F      #True is to staging DB and F is to production DB
 update=T          #if you want to delete all the info from this client, or it is a new client, put it as T
 is.new.client=F   #if new client on the tool then T, else F
 client_name="Kohls Ninah"
@@ -60,6 +60,7 @@ conn <- dbConnect(MySQL(),user=username, password=password,dbname=db.name, host=
 #########################
 
 setwd(path_R)
+source("adm_formula.R",local=F)
 source("adm_transform.R",local=F)
 source("adm_update.R",local=F)
 run=adm_update()
