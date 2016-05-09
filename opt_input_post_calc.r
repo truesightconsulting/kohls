@@ -1,184 +1,52 @@
-####################################################################################
-# Customized part:
-####################################################################################
-# Post-optm Calc
-print("Note: Post-optmization Calc.")
-if (check.error==0){
-  # halo effect of goal seek
-  source(paste(path,"opt_modelinput_halo.r",sep=""),local = T)
-  
-  # put the start spend in for multi goal seek
-  if (ex.setup$optimization_type==10) curve=merge(curve[,!"sp_min",with=F],start.sp,by="bdgt_id")
+# # halo effect of goal seek
+# source(paste(main.path,"opt_modelinput_halo.r",sep=""),local = T)
 
-  # calculate final result
-  curve$value_decomp=calc_decomp(curve$sp_current)
-  curve$value_npv=curve$value_decomp*curve$clv
-  curve$value_factor_1=curve$value_decomp/curve$factor_1
-  if (ex.setup$optimization_type %in% c(3,5,9)) {
-    curve$value_plan_decomp=calc_decomp(curve$sp_plan)
-    curve$value_plan_npv=curve$value_plan_decomp*curve$clv
-    curve$value_plan_factor_1=curve$value_plan_decomp/curve$factor_1
-    curve$support_plan=curve$sp_plan/curve$cps
-  }else{
-    curve$value_decomp_start=calc_decomp(curve$sp_min)
-    curve$value_npv_start=curve$value_decomp_start*curve$clv
-    curve$value_factor_1_start=curve$value_decomp_start/curve$factor_1
-    curve$support_start=curve$sp_min/curve$cps
-  }
-  curve$support=curve$sp_current/curve$cps
-  curve$value_npv_next=curve$clv*calc_decomp(curve$sp_current+ex.setup$input_increment)
-  curve$sp_inc=ex.setup$input_increment
-  
-  # summarize result
-  print("Note: Summarizing output.")
-  if (ex.setup$optimization_time==1){
-    month=strftime(curve$week_name,"%m/%Y")
-    curve$month_id=as.Date(paste("01/",month,sep=""),format="%d/%m/%Y")
-    curve$month_name=curve$month_id
-  }
-  summary.sp=curve[!duplicated(curve[,c("bdgt_id"),with=F]),]
-  summary=vector("list",nrow(ex.output))
-  bdgt_dim=str_split(ex.bdgt$bdgt_dim,",")[[1]]
+# calculate final result
+curve$value_decomp=calc_decomp(curve$sp_current)
+curve$value_npv=curve$value_decomp*curve$clv
+curve$value_factor_1=curve$value_decomp/curve$factor_1
+if (ex.setup$optimization_type %in% c(3,5,9)) {
+  curve$spend_start=curve$sp_plan
+  curve$value_decomp_start=calc_decomp(curve$sp_plan)
+  curve$value_npv_start=curve$value_decomp_start*curve$clv
+  curve$value_factor_1_start=curve$value_decomp_start/curve$factor_1
+  curve$support_start=curve$sp_plan/curve$cps
+}else{
+  curve$spend_start=curve$sp_min
+  curve$value_decomp_start=calc_decomp(curve$sp_min)
+  curve$value_npv_start=curve$value_decomp_start*curve$clv
+  curve$value_factor_1_start=curve$value_decomp_start/curve$factor_1
+  curve$support_start=curve$sp_min/curve$cps
+}
+curve$support=curve$sp_current/curve$cps
+curve$value_npv_next=curve$clv*calc_decomp(curve$sp_current+ex.setup$input_increment)
+curve$sp_inc=ex.setup$input_increment
 
-  for (i in 1:nrow(ex.output)){
-    names(summary)[i]=ex.output$label[i]
-    dim=str_split(ex.output$dim[i],",")[[1]]
-    dim1=c(dim,paste(as.vector(do.call(cbind,strsplit(dim,"_id"))),"_name",sep=""))
-    if (ex.setup$optimization_type %in% c(3,5,9)) {
-      summary.sp1=summary.sp[,list(spend=sum(sp_current),spend_start=sum(sp_plan),
-                                   support=sum(support),support_start=sum(support_plan),sp_inc=sum(sp_inc)),by=c(bdgt_dim[bdgt_dim %in% dim])]
-      summary.npv=curve[,list(decomp=sum(value_decomp),value=sum(value_npv),factor_1=sum(value_factor_1),
-                              decomp_start=sum(value_plan_decomp),value_start=sum(value_plan_npv),factor_1_start=sum(value_plan_factor_1),value_next=sum(value_npv_next)),by=c(dim1)]
-      if(sum(bdgt_dim %in% dim)==0){
-        summary[[i]]=data.table(summary.npv,summary.sp1)
-      }else{
-        summary[[i]]=merge(summary.npv,summary.sp1,by=c(bdgt_dim[bdgt_dim %in% dim]),all.x=T)
-      }
-    }else{
-      summary.sp1=summary.sp[,list(spend=sum(sp_current),spend_start=sum(sp_min),
-                                   support=sum(support),support_start=sum(support_start),sp_inc=sum(sp_inc)),by=c(bdgt_dim[bdgt_dim %in% dim])]
-      summary.npv=curve[,list(decomp=sum(value_decomp),value=sum(value_npv),factor_1=sum(value_factor_1),
-                              decomp_start=sum(value_decomp_start),value_start=sum(value_npv_start),factor_1_start=sum(value_factor_1_start),value_next=sum(value_npv_next)),by=c(dim1)]
-      if(sum(bdgt_dim %in% dim)==0){
-        summary[[i]]=data.table(summary.npv,summary.sp1)
-      }else{
-        summary[[i]]=merge(summary.npv,summary.sp1,by=c(bdgt_dim[bdgt_dim %in% dim]),all.x=T)
-      }
-    }
-    if(!is.na(ex.output$filter[i])){
-      index=grep(ex.output$filter[i],dim)
-      dim=dim[-index]
-      index=grep(ex.output$filter[i],dim1)
-      dim1=dim1[-index]
-      if (ex.setup$optimization_type %in% c(3,5,9)) {
-        summary.sp1=summary.sp[,list(spend=sum(sp_current),spend_start=sum(sp_plan),
-                                     support=sum(support),support_start=sum(support_plan),sp_inc=sum(sp_inc)),by=c(bdgt_dim[bdgt_dim %in% dim])]
-        summary.npv=curve[,list(decomp=sum(value_decomp),value=sum(value_npv),factor_1=sum(value_factor_1),
-                                decomp_start=sum(value_plan_decomp),value_start=sum(value_plan_npv),factor_1_start=sum(value_plan_factor_1),value_next=sum(value_npv_next)),by=c(dim1)]
-        if(sum(bdgt_dim %in% dim)==0){
-          temp=data.table(summary.npv,summary.sp1)
-        }else{
-          temp=merge(summary.npv,summary.sp1,by=c(bdgt_dim[bdgt_dim %in% dim]),all.x=T)
-        }
-      }else{
-        summary.sp1=summary.sp[,list(spend=sum(sp_current),spend_start=sum(sp_min),
-                                     support=sum(support),support_start=sum(support_start),sp_inc=sum(sp_inc)),by=c(bdgt_dim[bdgt_dim %in% dim])]
-        summary.npv=curve[,list(decomp=sum(value_decomp),value=sum(value_npv),factor_1=sum(value_factor_1),
-                                decomp_start=sum(value_decomp_start),value_start=sum(value_npv_start),factor_1_start=sum(value_factor_1_start),value_next=sum(value_npv_next)),by=c(dim1)]
-        if(sum(bdgt_dim %in% dim)==0){
-          temp=data.table(summary.npv,summary.sp1)
-        }else{
-          temp=merge(summary.npv,summary.sp1,by=c(bdgt_dim[bdgt_dim %in% dim]),all.x=T)
-        }
-      }
-      temp=rbindlist(list(summary[[i]],temp),fill=T,use.names = T)
-      temp[is.na(temp)]="All"
-      summary[[i]]=temp
-    }
-  }
-  ####################################################################################
-  # Customized part:
-  ####################################################################################
-  # format output
-  summary_output=vector("list",nrow(ex.output))
-  print("Note: Outputing result.")
-  for (i in 1:nrow(ex.output)){
-    # i=7
-    dim=str_split(ex.output$dim[i],",")[[1]]
-    if ("week_id" %in% dim==F){
-      temp=summary[[ex.output$label[i]]][(spend!=0|spend_start!=0)&(decomp!=0|decomp_start!=0),!dim,with=F]
-    }else temp=summary[[ex.output$label[i]]]
-    
-    # rename, delete col's, calc efficiency, reorder col's...
-    if (ex.setup$optimization_type %in% c(3,5,9)){
-      temp=temp[,':='(eff1=spend/decomp,eff1_start=spend_start/decomp_start,
-                      eff2=value/spend,eff2_start=value_start/spend_start)]
-      temp$eff1[temp$eff1==Inf]=0
-      temp$eff1_start[temp$eff1_start==Inf]=0
-      temp$eff2[temp$eff2==Inf]=0
-      temp$eff2_start[temp$eff2_start==Inf]=0
-      temp[is.na(temp)]=0
-      temp.dim=names(temp)[grep("_name",names(temp))]
-      if (ex.output$type[i]!="excel"){
-        temp[,c("spend","decomp","value","factor_1","spend_start","decomp_start","value_start","factor_1_start","support","support_start","value_next","sp_inc")]=
-          round(temp[,c("spend","decomp","value","factor_1","spend_start","decomp_start","value_start","factor_1_start","support","support_start","value_next","sp_inc"),with=F],digits = 0)
-        temp[,c("eff1","eff1_start","eff2","eff2_start")]=
-          round(temp[,c("eff1","eff1_start","eff2","eff2_start"),with=F],digits = 1)
-      }
-      if (dim[1]=="all_id") {
-        temp=data.table(temp[,temp.dim,with=F],temp[,!temp.dim,with=F]
-                        [,c("spend","support","decomp","value","factor_1","eff1","eff2","spend_start","support_start","decomp_start","value_start","factor_1_start","eff1_start","eff2_start","value_next","sp_inc"),with=F])
-      } else{
-        temp=data.table(temp[,temp.dim,with=F],temp[,!temp.dim,with=F]
-                        [,c("spend","spend_start","support","support_start","decomp","decomp_start","value","value_start","factor_1","factor_1_start","eff1","eff1_start","eff2","eff2_start","value_next","sp_inc"),with=F])
-      }
-      temp=temp[order(-spend)]
-      setnames(temp,c("factor_1","factor_1_start","spend","spend_start","support","support_start","decomp","decomp_start","value","value_start","eff1","eff1_start","eff2","eff2_start","value_next","sp_inc"),
-               c("Transactions","Planned Transactions","Spend","Planned Spend","Impressions","Planned Impressions","Revenue","Planned Revenue","Profit","Planned Profit","CPA","Planned CPA","ROI","Planned ROI","Next Profit","Inc Spend"))
-      temp=temp[,!c("CPA","Planned CPA"),with=F]
-    }else{
-      temp=temp[,!c("decomp_start","value_start","spend_start","support_start","factor_1_start"),with=F]
-      temp=temp[,':='(eff1=spend/decomp,eff2=value/spend)]
-      temp$eff1[temp$eff1==Inf]=0
-      temp$eff2[temp$eff2==Inf]=0
-      temp[is.na(temp)]=0
-      temp.dim=names(temp)[grep("_name",names(temp))]
-      if (ex.output$type[i]!="excel"){
-        temp[,c("spend","decomp","value","support","factor_1","value_next","sp_inc")]=
-          round(temp[,c("spend","decomp","value","support","factor_1","value_next","sp_inc"),with=F],digits = 0)
-        temp[,c("eff1","eff2")]=
-          round(temp[,c("eff1","eff2"),with=F],digits = 1)
-      }
-      temp=data.table(temp[,temp.dim,with=F],temp[,!temp.dim,with=F]
-                      [,c("spend","support","decomp","value","factor_1","eff1","eff2","value_next","sp_inc"),with=F])
-      temp=temp[order(-spend)]
-      setnames(temp,c("factor_1","spend","support","decomp","value","eff1","eff2","value_next","sp_inc"),
-               c("Transactions","Spend","Impressions","Revenue","Profit","CPA","ROI","Next Profit","Inc Spend"))
-      temp=temp[,!c("CPA"),with=F]
-    }
-    # delete dimension columns for overall output table
-    if (dim[1]=="all_id"){
-      temp=temp[,!c("all_name","Next Profit","Inc Spend"),with=F]
-    }else if (ex.output$type[i]=="excel"){
-      dim.id=data.table(dbGetQuery(conn,paste("select * from opt_modules_dim a inner join opt_label_modules_dim b on a.opt_label_modules_dim_id =b.id where client_id=",client_id,sep="")))
-      dim.id$dim=paste(dim.id$dim,"_name",sep="")
-      index=grepl("_name",names(temp))
-      dim.name=merge(data.table(dim=names(temp)[index]),dim.id[,c("dim","label"),with=F],by="dim",all.x=T)
-      setnames(temp,dim.name$dim,dim.name$label)
-      temp$MROI=(temp[["Next Profit"]]-temp[["Profit"]])/temp[["Inc Spend"]]
-    }else{
-      temp=temp[,!c("Next Profit","Inc Spend"),with=F]
-    }
-    summary_output[[i]]=temp
-    names(summary_output)[i]=ex.output$label[i]
-    # export
-    if (db.usage){
-      index=ex.output$label==ex.output$label[i]
-      ex.output$json[index]=toJSON(temp)
-    }else write.csv(temp,paste("opt_output_",ex.output$label[i],".csv",sep=""),row.names = F)
-  }
-  ####################################################################################
-  
-  # convert to json and upload to DB
-  source(paste(path,"opt_modelinput_tojson.r",sep=""),local = T)
-} 
+# summarize result
+input_sp=c("sp_current","spend_start","support","support_start","sp_inc")
+output_sp=c("spend","spend_start","support","support_start","sp_inc")
+input_decomp=c("value_decomp","value_npv","value_factor_1","value_decomp_start","value_npv_start","value_factor_1_start","value_npv_next")
+output_decomp=c("decomp","value","factor_1","decomp_start","value_start","factor_1_start","value_next")
+
+source(paste(main.path,"opt_modelinput_post_calc_agg.r",sep=""),local = T)
+
+# format output
+# new var 
+metric_eff=c("eff1","eff1_start","mroi")
+name_eff=c("ROI","Planned ROI","MROI")
+f_eff=c("value/spend","value_start/spend_start","value_next/sp_inc")
+
+# existing var
+metric_reg=c("spend","decomp","value","factor_1","spend_start","decomp_start","value_start","factor_1_start","support","support_start","value_next","sp_inc")
+name_reg=c("Spend","Revenue","Profit","Transactions","Planned Spend","Planned Revenue","Planned Profit","Planned Transactions","Impressions","Planned Impressions","Next Profit","Inc Spend")
+
+# table column order 
+order_all=c("spend","support","decomp","value","factor_1","eff1","spend_start","support_start","decomp_start","value_start","factor_1_start","eff1_start","value_next","sp_inc","mroi")
+order_other=c("spend","spend_start","support","support_start","decomp","decomp_start","value","value_start","factor_1","factor_1_start","eff1","eff1_start","value_next","sp_inc","mroi")
+
+# any columns to be dropped for all, excel and other tables; NAME HERE IS AFTER RENAMED!!!!!!!!!!!!!!!!!!!!!!!!!!
+drop_all=c("all_name","Next Profit","Inc Spend","MROI")
+drop_excel=c()
+drop_other=c("Next Profit","Inc Spend","MROI")
+
+source(paste(main.path,"opt_modelinput_post_calc_format.r",sep=""),local = T)
