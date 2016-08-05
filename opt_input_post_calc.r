@@ -34,7 +34,7 @@ source(paste(main.path,"opt_modelinput_post_calc_agg.r",sep=""),local = T)
 # new var 
 metric_eff=c("eff1","eff1_start","mroi")
 name_eff=c("ROI","Planned ROI","MROI")
-f_eff=c("value/spend","value_start/spend_start","value_next/sp_inc")
+f_eff=c("value/spend","value_start/spend_start","(value_next-value)/sp_inc")
 
 # existing var
 metric_reg=c("spend","decomp","value","factor_1","spend_start","decomp_start","value_start","factor_1_start","support","support_start","value_next","sp_inc")
